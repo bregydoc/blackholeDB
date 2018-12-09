@@ -1,11 +1,11 @@
-package main
+package blackhole
 
 import (
 	"github.com/dgraph-io/badger"
 	"github.com/ipfs/go-ipfs-api"
 )
 
-type BlackHoleDB struct {
+type DB struct {
 	encryptKey    string
 	principalNode string
 
@@ -13,7 +13,7 @@ type BlackHoleDB struct {
 	remoteShell *shell.Shell
 }
 
-type BHOptions struct {
+type Options struct {
 	PrivateKey         string
 	EndPointConnection string
 	PrincipalNode      string
@@ -22,15 +22,15 @@ type BHOptions struct {
 	LocalDBValueDir string
 }
 
-var DefaultOptions *BHOptions = &BHOptions{
+var DefaultOptions *Options = &Options{
 	LocalDBDir:         "/tmp/badger",
 	LocalDBValueDir:    "/tmp/badger",
 	EndPointConnection: "localhost:5001",
 	PrivateKey:         "black_hole",
 }
 
-func Open(options *BHOptions) (*BlackHoleDB, error) {
-	db := new(BlackHoleDB)
+func Open(options *Options) (*DB, error) {
+	db := new(DB)
 	db.encryptKey = options.PrivateKey
 	db.principalNode = options.PrincipalNode
 
@@ -53,6 +53,6 @@ func Open(options *BHOptions) (*BlackHoleDB, error) {
 
 }
 
-func (db *BlackHoleDB) Close() {
+func (db *DB) Close() {
 	db.localDB.Close()
 }

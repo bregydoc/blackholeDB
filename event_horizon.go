@@ -1,11 +1,11 @@
-package main
+package blackhole
 
 import (
 	"bytes"
 	"io/ioutil"
 )
 
-func (db *BlackHoleDB) writeKeyValuePair(key, value string) error {
+func (db *DB) writeKeyValuePair(key, value string) error {
 	txn := db.localDB.NewTransaction(true)
 	defer txn.Discard()
 
@@ -21,7 +21,7 @@ func (db *BlackHoleDB) writeKeyValuePair(key, value string) error {
 	return nil
 }
 
-func (db *BlackHoleDB) readKeyValuePair(key string) (string, error) {
+func (db *DB) readKeyValuePair(key string) (string, error) {
 	txn := db.localDB.NewTransaction(false)
 	defer txn.Discard()
 
@@ -43,7 +43,7 @@ func (db *BlackHoleDB) readKeyValuePair(key string) (string, error) {
 
 }
 
-func (db *BlackHoleDB) Set(key string, value []byte) error {
+func (db *DB) Set(key string, value []byte) error {
 
 	data := encrypt(value, db.encryptKey)
 
@@ -62,7 +62,7 @@ func (db *BlackHoleDB) Set(key string, value []byte) error {
 	return nil
 }
 
-func (db *BlackHoleDB) Get(key string) ([]byte, error) {
+func (db *DB) Get(key string) ([]byte, error) {
 	hash, err := db.readKeyValuePair(key)
 	if err != nil {
 		return nil, err
@@ -82,7 +82,7 @@ func (db *BlackHoleDB) Get(key string) ([]byte, error) {
 	return dData, nil
 }
 
-func (db *BlackHoleDB) GetQmFromKey(key string) (string, error) {
+func (db *DB) GetQmFromKey(key string) (string, error) {
 	hash, err := db.readKeyValuePair(key)
 	if err != nil {
 		return "", err
@@ -90,7 +90,7 @@ func (db *BlackHoleDB) GetQmFromKey(key string) (string, error) {
 	return hash, nil
 }
 
-func (db *BlackHoleDB) Update(key string, value []byte) error {
+func (db *DB) Update(key string, value []byte) error {
 
 	data := encrypt(value, db.encryptKey)
 
