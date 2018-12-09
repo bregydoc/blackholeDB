@@ -8,7 +8,7 @@ BlackHoleDB (or only HoleDB) is a concept of Key-Value distributed Database.
 HoleDB uses [IPFS](https://ipfs.io) as decentralized filesystem, 
 and [BadgerDB](https://github.com/dgraph-io/badger) for store the local key value pairs.
 
-**Warning:** BlackHole is work in progress, don't use in production.
+**Warning:** BlackHole is work in progress, please don't use in production.
  
 ## How it Works
 BlackHoleDB create an encrypted file into IPFS filesystem and this return an Qm name (the decentralized path), 
@@ -39,4 +39,31 @@ if err != nil {
 fmt.Println("Answer: ", string(data))
 // Answer: Hello World, from BlackHoleDB
 
-```  
+```
+
+## About Options Configuration
+
+You can configure the params of your blackhole instance, 
+you can see the struct related above.
+
+```go
+type Options struct {
+	PrivateKey         string // Your encoding key
+	EndPointConnection string // Your IPFS Node endpoint
+	PrincipalNode      string // Useless now (WIP)
+
+	LocalDBDir      string // Your Local Badger DB
+	LocalDBValueDir string // Your Local Badger DB
+}
+```
+
+The default configuration is:
+
+```go
+var DefaultOptions *Options = &Options{
+	LocalDBDir:         "/tmp/badger",
+	LocalDBValueDir:    "/tmp/badger",
+	EndPointConnection: "localhost:5001",
+	PrivateKey:         "black_hole",
+}
+```
