@@ -48,7 +48,7 @@ you can see the struct related above.
 
 ```go
 type Options struct {
-	PrivateKey         string // Your encoding key
+	PrivateKey         []byte // Your encoding key
 	EndPointConnection string // Your IPFS Node endpoint
 	PrincipalNode      string // Useless now (WIP)
 
@@ -64,8 +64,9 @@ var DefaultOptions *Options = &Options{
 	LocalDBDir:         "/tmp/badger",
 	LocalDBValueDir:    "/tmp/badger",
 	EndPointConnection: "localhost:5001",
-	PrivateKey:         "black_hole",
 }
+// Note: You need to define your privateKey like this:
+// opts.PrivateKey, _ = hex.DecodeString("44667768254d593b7ea48c3327c18a651f6031554ca4f5e3e641f6ff1ea72e98")
 ```
 
 ## Basic Usage Example
