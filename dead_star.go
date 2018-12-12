@@ -1,12 +1,18 @@
 package blackhole
 
 import (
+	"errors"
+
 	"github.com/dgraph-io/badger"
 	"github.com/ipfs/go-ipfs-api"
 )
 
+const (
+	RequiredKeyLength = 32
+)
+
 type DB struct {
-	encryptKey    string
+	encryptKey    []byte
 	principalNode string
 
 	localDB     *badger.DB
@@ -14,7 +20,7 @@ type DB struct {
 }
 
 type Options struct {
-	PrivateKey         string
+	PrivateKey         []byte
 	EndPointConnection string
 	PrincipalNode      string
 
@@ -26,10 +32,25 @@ var DefaultOptions *Options = &Options{
 	LocalDBDir:         "/tmp/badger",
 	LocalDBValueDir:    "/tmp/badger",
 	EndPointConnection: "localhost:5001",
-	PrivateKey:         "black_hole",
+}
+
+// ValidateKey takes a byte slice and checks that minimum requirements are met for
+// the key. It returns an error if the requirements are not met.
+func ValidateKey(k []byte) error {
+	if len(k) == 0 {
+		return errors.New("No PrivateKey set.")
+	}
+	if len(k) != RequiredKeyLength {
+		return errors.New("Invalid PrivateKey length. Key must be 32 bytes.")
+	}
+	return nil
 }
 
 func Open(options *Options) (*DB, error) {
+	if err := ValidateKey(options.PrivateKey); err != nil {
+		return nil, err
+	}
+
 	db := new(DB)
 	db.encryptKey = options.PrivateKey
 	db.principalNode = options.PrincipalNode
@@ -44,9 +65,7 @@ func Open(options *Options) (*DB, error) {
 	}
 
 	db.localDB = ldb
-
 	sh := shell.NewShell(options.EndPointConnection)
-
 	db.remoteShell = sh
 
 	return db, nil

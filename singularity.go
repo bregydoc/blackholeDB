@@ -3,20 +3,12 @@ package blackhole
 import (
 	"crypto/aes"
 	"crypto/cipher"
-	"crypto/md5"
 	"crypto/rand"
-	"encoding/hex"
 	"io"
 )
 
-func createHash(key string) string {
-	hasher := md5.New()
-	hasher.Write([]byte(key))
-	return hex.EncodeToString(hasher.Sum(nil))
-}
-
-func encrypt(data []byte, passphrase string) []byte {
-	block, _ := aes.NewCipher([]byte(createHash(passphrase)))
+func encrypt(data []byte, key []byte) []byte {
+	block, _ := aes.NewCipher(key)
 	gcm, err := cipher.NewGCM(block)
 	if err != nil {
 		panic(err.Error())
@@ -29,8 +21,7 @@ func encrypt(data []byte, passphrase string) []byte {
 	return cipherText
 }
 
-func decrypt(data []byte, passphrase string) []byte {
-	key := []byte(createHash(passphrase))
+func decrypt(data []byte, key []byte) []byte {
 	block, err := aes.NewCipher(key)
 	if err != nil {
 		panic(err.Error())
