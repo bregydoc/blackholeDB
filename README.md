@@ -100,3 +100,15 @@ func main() {
 	// The answer of the life is:  42
 }
 ```
+## TODO
+
+- [ ] Create an ORM layer for save complex structs
+- [ ] Improve the security
+- [ ] Make Blackhole a metaDB. Save all param configurations on Distributed web (IPFS)
+
+
+
+## Contributing to BlackHoleDB
+
+BlackHoleDB is an open source project and contributors are welcome!
+
