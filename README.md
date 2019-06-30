@@ -4,14 +4,14 @@
 </p>
 
 # Black Hole DB (WIP)
-BlackHoleDB (or only HoleDB) is a concept of Key-Value distributed Database.
+BlackHoleDB (or only HoleDB) is a conceptual Key-Value distributed Database.
 HoleDB uses [IPFS](https://ipfs.io) as decentralized filesystem, 
-and [BadgerDB](https://github.com/dgraph-io/badger) for store the local key value pairs.
+and [BadgerDB](https://github.com/dgraph-io/badger) as store for local key value pairs.
 
-**Warning:** BlackHole is work in progress, please don't use in production.
+**Warning:** BlackHole is work in progress, please don't use it in production.
  
 ## How it Works
-BlackHoleDB create an encrypted file into IPFS filesystem and this return an Qm name (the decentralized path), 
+BlackHoleDB creates an encrypted file into IPFS filesystem and this return an Qm name (the decentralized path), 
 this Qm path is saved into BadgerDB instance as value where the key is the initial key choose. When you want get your 
 value from the distributed web BlackHoleDB get the Qm linked your key (from BadgerDB) and with this Qm path HoleDB gets
 the encrypted file from IPFS and finally it decrypted it.
