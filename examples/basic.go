@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/bregydoc/blackholeDB"
+	blackhole "github.com/bregydoc/blackholeDB"
 )
 
 func main() {
@@ -33,6 +33,6 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Println("The answer of the life is: ", string(answer))
-	// The answer of the life is:  42
+	fmt.Println("The answer of life is: ", string(answer))
+	// The answer of life is:  42
 }

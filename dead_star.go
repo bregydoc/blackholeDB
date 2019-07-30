@@ -4,7 +4,7 @@ import (
 	"errors"
 
 	"github.com/dgraph-io/badger"
-	"github.com/ipfs/go-ipfs-api"
+	shell "github.com/ipfs/go-ipfs-api"
 )
 
 const (
@@ -24,13 +24,11 @@ type Options struct {
 	EndPointConnection string
 	PrincipalNode      string
 
-	LocalDBDir      string
-	LocalDBValueDir string
+	LocalDBDir string
 }
 
 var DefaultOptions *Options = &Options{
 	LocalDBDir:         "/tmp/badger",
-	LocalDBValueDir:    "/tmp/badger",
 	EndPointConnection: "localhost:5001",
 }
 
@@ -38,10 +36,10 @@ var DefaultOptions *Options = &Options{
 // the key. It returns an error if the requirements are not met.
 func ValidateKey(k []byte) error {
 	if len(k) == 0 {
-		return errors.New("No PrivateKey set.")
+		return errors.New("no PrivateKey set")
 	}
 	if len(k) != RequiredKeyLength {
-		return errors.New("Invalid PrivateKey length. Key must be 32 bytes.")
+		return errors.New("invalid PrivateKey length. Key must be 32 bytes")
 	}
 	return nil
 }
@@ -55,9 +53,10 @@ func Open(options *Options) (*DB, error) {
 	db.encryptKey = options.PrivateKey
 	db.principalNode = options.PrincipalNode
 
-	opts := badger.DefaultOptions
-	opts.Dir = options.LocalDBDir
-	opts.ValueDir = options.LocalDBValueDir
+	opts := badger.DefaultOptions(options.LocalDBDir)
+
+	// opts.Dir = options.LocalDBDir
+	// opts.ValueDir = options.LocalDBValueDir
 
 	ldb, err := badger.Open(opts)
 	if err != nil {
