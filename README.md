@@ -1,29 +1,31 @@
-
 <p align="center">
-  <img src="logo.png"/>
+  <img src="logo.png" width="70%" height="auto"/>
 </p>
 
 # Black Hole DB (WIP)
+
 BlackHoleDB (or only HoleDB) is a conceptual Key-Value distributed Database.
-HoleDB uses [IPFS](https://ipfs.io) as decentralized filesystem, 
+HoleDB uses [IPFS](https://ipfs.io) as decentralized filesystem,
 and [BadgerDB](https://github.com/dgraph-io/badger) as store for local key value pairs.
 
 **Warning:** BlackHole is work in progress, please don't use it in production.
- 
+
 ## How it Works
-BlackHoleDB creates an encrypted file into IPFS filesystem and this return an Qm name (the decentralized path), 
-this Qm path is saved into BadgerDB instance as value where the key is the initial key choose. When you want get your 
+
+BlackHoleDB creates an encrypted file into IPFS filesystem and this return an Qm name (the decentralized path),
+this Qm path is saved into BadgerDB instance as value where the key is the initial key choose. When you want get your
 value from the distributed web BlackHoleDB get the Qm linked your key (from BadgerDB) and with this Qm path HoleDB gets
 the encrypted file from IPFS and finally it decrypted it.
 
 Example code:
+
 ```go
 options := blackhole.DefaultOptions
 db, err := blackhole.Open(options)
 if err != nil {
 	panic(err)
 }
-	
+
 key := "answer"
 
 err = db.Set(key, []byte("Hello World, from BlackHoleDB"))
@@ -43,7 +45,7 @@ fmt.Println("Answer: ", string(data))
 
 ## About Options Configuration
 
-You can configure the params of your blackhole instance, 
+You can configure the params of your blackhole instance,
 you can see the struct related above.
 
 ```go
@@ -70,6 +72,7 @@ var DefaultOptions *Options = &Options{
 ```
 
 ## Basic Usage Example
+
 ```go
 package main
 
@@ -100,6 +103,7 @@ func main() {
 	// The answer of the life is:  42
 }
 ```
+
 ## TODO
 
 - [ ] Improve the security
@@ -110,4 +114,3 @@ func main() {
 ## Contributing to BlackHoleDB
 
 BlackHoleDB is an open source project and contributors are welcome!
-
