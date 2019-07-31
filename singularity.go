@@ -9,7 +9,7 @@ import (
 	"crypto/rand"
 )
 
-// UnixTimePrefixedNonce takes an int for the nonce size and returns a byte slice of length size.
+// UnixTimePrefixedRandomNonce takes an int for the nonce size and returns a byte slice of length size.
 // A byte slice is created for the nonce and filled with random data from `crypto/rand`, then the
 // first 4 bytes of the nonce are overwritten with LittleEndian encoding of `time.Now().Unix()`
 // The purpose of this function is to avoid an unlikely collision in randomly generating nonces
