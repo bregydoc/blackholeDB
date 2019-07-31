@@ -33,6 +33,6 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Println("The answer of life is: ", string(answer))
-	// The answer of life is:  42
+	fmt.Println("The meaning of life is: ", string(answer))
+	// The meaning of life is:  42
 }
