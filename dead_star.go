@@ -8,26 +8,34 @@ import (
 )
 
 const (
+	// RequiredKeyLength determinate the exact length of the encrypt key
 	RequiredKeyLength = 32
 )
 
+// DB represents a blackhole db instance,
+// this struct is the real db when it's sync with the ipfs files
 type DB struct {
 	encryptKey    []byte
 	principalNode string
 
 	localDB     *badger.DB
 	remoteShell *shell.Shell
+	options     *Options
 }
 
+// Options is the options configuration of blackholole DB
+// TODO: Define better options and a new paradigm to set it
 type Options struct {
 	PrivateKey         []byte
 	EndPointConnection string
 	PrincipalNode      string
-
-	LocalDBDir string
+	LocalDBDir         string
 }
 
-var DefaultOptions *Options = &Options{
+// DefaultOptions is used with any options passed,
+// this config saves your db file into your temporal computer files (UNIX)
+// TODO: Improve for another SO
+var DefaultOptions = &Options{
 	LocalDBDir:         "/tmp/badger",
 	EndPointConnection: "localhost:5001",
 }
@@ -44,6 +52,7 @@ func ValidateKey(k []byte) error {
 	return nil
 }
 
+// Open opens a new instance of blackholedb
 func Open(options *Options) (*DB, error) {
 	if err := ValidateKey(options.PrivateKey); err != nil {
 		return nil, err
@@ -52,11 +61,9 @@ func Open(options *Options) (*DB, error) {
 	db := new(DB)
 	db.encryptKey = options.PrivateKey
 	db.principalNode = options.PrincipalNode
+	db.options = options
 
 	opts := badger.DefaultOptions(options.LocalDBDir)
-
-	// opts.Dir = options.LocalDBDir
-	// opts.ValueDir = options.LocalDBValueDir
 
 	ldb, err := badger.Open(opts)
 	if err != nil {
@@ -68,9 +75,10 @@ func Open(options *Options) (*DB, error) {
 	db.remoteShell = sh
 
 	return db, nil
-
 }
 
+// Close ...
+// TODO
 func (db *DB) Close() {
 	db.localDB.Close()
 }

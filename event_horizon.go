@@ -44,7 +44,6 @@ func (db *DB) readKeyValuePair(key string) (string, error) {
 }
 
 func (db *DB) Set(key string, value []byte) error {
-
 	data := encrypt(value, db.encryptKey)
 
 	buf := bytes.NewBuffer(data)
