@@ -34,7 +34,7 @@ type Options struct {
 
 // DefaultOptions is used with any options passed,
 // this config saves your db file into your temporal computer files (UNIX)
-// TODO: Improve for another SO
+// TODO: Improve to another SO
 var DefaultOptions = &Options{
 	LocalDBDir:         "/tmp/badger",
 	EndPointConnection: "localhost:5001",
@@ -63,7 +63,7 @@ func Open(options *Options) (*DB, error) {
 	db.principalNode = options.PrincipalNode
 	db.options = options
 
-	opts := badger.DefaultOptions(options.LocalDBDir)
+	opts := badger.DefaultOptions(options.LocalDBDir).WithLogger(nil)
 
 	ldb, err := badger.Open(opts)
 	if err != nil {
